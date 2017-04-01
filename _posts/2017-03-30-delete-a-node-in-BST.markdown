@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "delete a node in BST"
+title:  "Delete a node in BST"
 date:   2017-03-30 
 categories: Tree 
 ---
