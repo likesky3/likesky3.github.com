@@ -21,7 +21,7 @@ case 3: a和b均不属于A2，则根据它们的值大小判断，值小排前�
 PS: 之所以需要将A1转为Integer[]进行sort，是因为API只提供对Object类型的数组自定义comparator.  
 
 
-```Java
+```java
 private static class MyComparator implements Comparator<Integer> {
     private Map<Integer, Integer> map;
     public MyComparator(int[] A2) {
