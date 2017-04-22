@@ -28,3 +28,8 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
+
+#enable Google Analytics
+```yaml
+  google_analytics: UA-NNNNNNNN-N
+```
