@@ -30,6 +30,4 @@ exclude:
   - Gemfile.lock
 
 #enable Google Analytics
-```yaml
-  google_analytics: UA-NNNNNNNN-N
-```
+google_analytics: UA-97912466-1
