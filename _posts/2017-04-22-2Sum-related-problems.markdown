@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  ""
-date:   2017-- 
-categories:  xx 
+title:  "2Sum/3Sum/4Sum/...KSum"
+date:   2017-04-22 
+categories:  HashMap, DP
 ---
 
 [2 Sum Q1]: Given an integer array nums[] and an integer target, find if there exist a pair integers whose sum equals to target.
