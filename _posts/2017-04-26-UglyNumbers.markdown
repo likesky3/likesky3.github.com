@@ -34,10 +34,10 @@ public int nthSuperUglyNumber(int n, int[] primes) {
         for (int i = 1; i < n; i++) {
             int curr = minHeap.poll(); // O(nlognk)
             for (int j = 0; j < primes.length; j++) {
-                long cand = (long)curr * primes[j];
-                if (cand >= Integer.MAX_VALUE) {
+                if (curr > Integer.MAX_VALUE / primes[j]) {
                     break;
                 }
+                int cand = (long)curr * primes[j];
                 if (visited.add((int)cand)) {// O(nk)
                     minHeap.offer((int)cand); // O(nklognk)
                 }
