@@ -42,57 +42,57 @@ so we prove that after the whole process, A would always > 1/k, so A must be in 
 
 ```Java
 public List<Integer> majority(int[] array, int k) {
-		// key is some array[i], value is current remained number of array[i]
-		Map<Integer, Integer> candidates = new HashMap<>();
+	// key is some array[i], value is current remained number of array[i]
+	Map<Integer, Integer> candidates = new HashMap<>();
 
-		// O(n), each element in array[] go in and go out to the hashmap at most
-		// once
-		for (int i = 0; i < array.length; i++) {
-			Integer myVotes = candidates.get(array[i]);
-			if (myVotes == null) { // comes a new candidate
-				if (candidates.size() < k - 1) { // if there is empty position, just comes in
-					candidates.put(array[i], 1);
-					continue;
-				}
-				List<Integer> toRemove = new ArrayList<>();
-				for (Map.Entry<Integer, Integer> cand : candidates.entrySet()) {
-					if (cand.getValue() == 1) {
-						toRemove.add(cand.getKey());
-					} else {
-						cand.setValue(cand.getValue() - 1);
-					}
-				}
-				for (Integer loser : toRemove) {
-					candidates.remove(loser);
-				}
-			} else {
-				candidates.put(array[i], myVotes + 1);
+	// O(n), each element in array[] go in and go out to the hashmap at most
+	// once
+	for (int i = 0; i < array.length; i++) {
+		Integer myVotes = candidates.get(array[i]);
+		if (myVotes == null) { // comes a new candidate
+			if (candidates.size() < k - 1) {
+				candidates.put(array[i], 1);
+				continue;
 			}
-
-		}
-		
-		// reset the counter of each candidate to 0, O(k)
-		for (Integer cand : candidates.keySet()) {
-			candidates.put(cand, 0);
-		}
-
-		// scan the input again to count the actual number of each candidate,
-		// O(n)
-		for (int cand : array) {
-			Integer myVotes = candidates.get(cand);
-			if (myVotes != null) {
-				candidates.put(cand, myVotes + 1);
+			List<Integer> toRemove = new ArrayList<>();
+			for (Map.Entry<Integer, Integer> cand : candidates.entrySet()) {
+				if (cand.getValue() == 1) {
+					toRemove.add(cand.getKey());
+				} else {
+					cand.setValue(cand.getValue() - 1);
+				}
 			}
+			for (Integer loser : toRemove) {
+				candidates.remove(loser);
+			}
+		} else {
+			candidates.put(array[i], myVotes + 1);
 		}
 
-		// select those > 1 / k, O(k)
-		List<Integer> result = new ArrayList<>();
-		for (Integer cand : candidates.keySet()) {
-			if (candidates.get(cand) > array.length * 1.0 / k) {
-				result.add(cand);
-			}
-		}
-		return result;
 	}
-```
 
+
+	// reset the counter of each candidate to 0, O(k)
+	for (Integer cand : candidates.keySet()) {
+		candidates.put(cand, 0);
+	}
+
+	// scan the input again to count the actual number of each candidate,
+	// O(n)
+	for (int cand : array) {
+		Integer myVotes = candidates.get(cand);
+		if (myVotes != null) {
+			candidates.put(cand, myVotes + 1);
+		}
+	}
+
+	// select those > 1 / k, O(k)
+	List<Integer> result = new ArrayList<>();
+	for (Integer cand : candidates.keySet()) {
+		if (candidates.get(cand) > array.length * 1.0 / k) {
+			result.add(cand);
+		}
+	}
+	return result;
+}
+```
