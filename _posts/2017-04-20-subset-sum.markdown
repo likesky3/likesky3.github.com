@@ -21,101 +21,102 @@ partition成 k 个equal sum的subset时，需要先对k 分类讨论，然后递
 DP方法求解partition two equal sum subsets代码：
 ```java
 public boolean partitionEqualSum(int[] nums){
-		// find min & max sum
-		int minSum = 0, maxSum = 0;
-		int totalSum = 0;
-		for (int elem : nums) {
-			if (elem <= 0) {
-				minSum += elem;
-			} else {
-				maxSum += elem;
-			}
-			totalSum += elem;
+	// find min & max sum
+	int minSum = 0, maxSum = 0;
+	int totalSum = 0;
+	for (int elem : nums) {
+		if (elem <= 0) {
+			minSum += elem;
+		} else {
+			maxSum += elem;
 		}
-		if (Math.abs(totalSum) % 2 == 1) { // >< better than totalSum % 2, since -3 % 2 == -2, which wold lead wrong result
-			return false;
-		}
-		int offset = minSum < 0 ? -minSum : 0;
-		int n = nums.length;
-		int halfSum = totalSum / 2;
-		boolean[][] dp = new boolean[n + 1][maxSum - minSum + 1]; // >< not [halfSum + offset + 1][n + 1], not[halfSum - minSum + 1][n + 1]
-		dp[0][0 + offset] = true;
-		for (int i = 1; i <= n; i++) {
-			for (int j = minSum + offset; j <= halfSum + offset; j++) { // >< upper limit do not need to be maxSum + offset
-				dp[i][j] = dp[i - 1][j];
-				if (!dp[i][j] && j - nums[i - 1] >= 0 && j - nums[i - 1] < dp[0].length) { // >< do not forget: i - nums[j - 1] < dp.length
-					dp[i][j] = dp[i - 1][j - nums[i - 1]]; // // >< since nums[j - 1] may be a negative number, so i - nums[j - 1] may be greater than i
-				}
-			}
-		}
-		
-		return dp[n][halfSum + offset];
+		totalSum += elem;
 	}
+	if (Math.abs(totalSum) % 2 == 1) { // >< better than totalSum % 2, since -3 % 2 == -2, which wold lead wrong result
+		return false;
+	}
+	int offset = minSum < 0 ? -minSum : 0;
+	int n = nums.length;
+	int halfSum = totalSum / 2;
+	boolean[][] dp = new boolean[n + 1][maxSum - minSum + 1]; // >< not [halfSum + offset + 1][n + 1], not[halfSum - minSum + 1][n + 1]
+	dp[0][0 + offset] = true;
+	for (int i = 1; i <= n; i++) {
+		for (int j = minSum + offset; j <= halfSum + offset; j++) { // >< upper limit do not need to be maxSum + offset
+			dp[i][j] = dp[i - 1][j];
+			if (!dp[i][j] && j - nums[i - 1] >= 0 && j - nums[i - 1] < dp[0].length) { // >< do not forget: i - nums[j - 1] < dp.length
+				dp[i][j] = dp[i - 1][j - nums[i - 1]]; // // >< since nums[j - 1] may be a negative number, so i - nums[j - 1] may be greater than i
+			}
+		}
+	}
+	
+	return dp[n][halfSum + offset];
+}
 ```
 
 递归解决分为三份equal sum代码：
 实现中使用HashSet时为了给结果去重，仅使用HashSet不足以实现这个目的，需要在构造结果时保证特定的顺序，实现中是对各个subset进行sort。
 ```java
 public static void divide(int[] nums) {
-		int totalSum = 0;
-		for (int n : nums) {
-			totalSum += n;
-		}
-		
-		if (totalSum % 3 == 0) {
-			Set<List<List<Integer>>> result = new HashSet<>();
-			boolean[] visited = new boolean[nums.length];
-			recur(nums, visited, 0, result, new ArrayList<>(), new ArrayList<Integer>(), 0, totalSum / 3);
-			for (List<List<Integer>> solu : result) {
-				print(solu);
-			}
-		}
+	int totalSum = 0;
+	for (int n : nums) {
+		totalSum += n;
 	}
 	
-	private static void recur(int[] nums, boolean[] visited, int start, Set<List<List<Integer>>> result, List<List<Integer>>  solu, List<Integer> part, int partSum, int sum) {
-		if (partSum == sum) {
-			List<Integer> copy = new ArrayList<Integer>(part);
-			Collections.sort(copy);
-			solu.add(copy);
-			if (solu.size() == 1) {
-				recur(nums, visited, 0, result, solu, new ArrayList<>(), 0, sum); // search for 2nd part
-			} else { // solu.size == 2
-				List<Integer> part3 = new ArrayList<>();
-				for (int i = 0; i < nums.length; i++) {
-					if (!visited[i]) {
-						part3.add(nums[i]);
-					}
-				}
-				Collections.sort(part3);
-				solu.add(part3);
-				List<List<Integer>> soluCopy  = new ArrayList<>(solu);
-				Collections.sort(soluCopy, new PartitionComp());
-				result.add(soluCopy);
-				solu.remove(solu.size() - 1); // >< backtrace, restore status
-			} 
-			solu.remove(solu.size() - 1); // >< backtrace, restore status
-			return;
-		} /* else if (partSum > sum) { // >< partSum may decrease later
-			return;
-		} */ 
-		
-		while (start < nums.length && visited[start]) {
-			start++;
+	if (totalSum % 3 == 0) {
+		Set<List<List<Integer>>> result = new HashSet<>();
+		boolean[] visited = new boolean[nums.length];
+		recur(nums, visited, 0, result, new ArrayList<>(), new ArrayList<Integer>(), 0, totalSum / 3);
+		for (List<List<Integer>> solu : result) {
+			print(solu);
 		}
-		if (start == nums.length) {
-			return;
-		}
-		
-		// choose nums[start]
-		part.add(nums[start]);
-		visited[start] = true;
-		recur(nums, visited, start, result, solu, part, partSum + nums[start], sum);
-		visited[start] = false;
-		part.remove(part.size() - 1);
-		
-		// do not choose nums[start]
-		recur(nums, visited, start + 1, result, solu, part, partSum, sum);
 	}
+}
+
+private static void recur(int[] nums, boolean[] visited, int start, Set<List<List<Integer>>> result, List<List<Integer>>  solu, List<Integer> part, int partSum, int sum) {
+	if (partSum == sum) {
+		List<Integer> copy = new ArrayList<Integer>(part);
+		Collections.sort(copy);
+		solu.add(copy);
+		if (solu.size() == 1) {
+			recur(nums, visited, 0, result, solu, new ArrayList<>(), 0, sum); // search for 2nd part
+		} else { // solu.size == 2
+			List<Integer> part3 = new ArrayList<>();
+			for (int i = 0; i < nums.length; i++) {
+				if (!visited[i]) {
+					part3.add(nums[i]);
+				}
+			}
+			Collections.sort(part3);
+			solu.add(part3);
+			List<List<Integer>> soluCopy  = new ArrayList<>(solu);
+			Collections.sort(soluCopy, new PartitionComp());
+			result.add(soluCopy);
+			solu.remove(solu.size() - 1); // >< backtrace, restore status
+		} 
+		solu.remove(solu.size() - 1); // >< backtrace, restore status
+		return;
+	} /* else if (partSum > sum) { // >< partSum may decrease later
+		return;
+	} */ 
+	
+	while (start < nums.length && visited[start]) {
+		start++;
+	}
+	if (start == nums.length) {
+		return;
+	}
+	
+	// choose nums[start]
+	part.add(nums[start]);
+	visited[start] = true;
+	recur(nums, visited, start, result, solu, part, partSum + nums[start], sum);
+	visited[start] = false;
+	part.remove(part.size() - 1);
+	
+	// do not choose nums[start]
+	recur(nums, visited, start + 1, result, solu, part, partSum, sum);
+}
+	
 ```
 
 
