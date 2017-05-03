@@ -4,7 +4,6 @@ title:  "Majority Number Problem"
 date:   2017-05-03 
 categories:   
 ---
-
 **Problem:**  
 Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
 
@@ -42,9 +41,7 @@ so we prove that after the whole process, A would always > 1/k, so A must be in 
 
 
 ```Java
-class Solution {
-	// Total time complexity is O(n), space complexity is O(k)
-	public List<Integer> majority(int[] array, int k) {
+public List<Integer> majority(int[] array, int k) {
 		// key is some array[i], value is current remained number of array[i]
 		Map<Integer, Integer> candidates = new HashMap<>();
 
@@ -97,6 +94,5 @@ class Solution {
 		}
 		return result;
 	}
-}
 ```
 
