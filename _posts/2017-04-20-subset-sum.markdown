@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Subset Sum"
-date:   2017-04-21 
+date:   2017-04-20 
 categories:  DP 
 ---
 
@@ -41,7 +41,7 @@ public boolean partitionEqualSum(int[] nums){
 	boolean[][] dp = new boolean[n + 1][maxSum - minSum + 1]; // >< not [halfSum + offset + 1][n + 1], not[halfSum - minSum + 1][n + 1]
 	dp[0][0 + offset] = true;
 	for (int i = 1; i <= n; i++) {
-		for (int j = minSum + offset; j <= halfSum + offset; j++) { // >< upper limit do not need to be maxSum + offset
+		for (int j = minSum + offset; j <= maxSum + offset; j++) { // >< when there are negative elements in the input, upper limit need to be maxSum + offset
 			dp[i][j] = dp[i - 1][j];
 			if (!dp[i][j] && j - nums[i - 1] >= 0 && j - nums[i - 1] < dp[0].length) { // >< do not forget: i - nums[j - 1] < dp.length
 				dp[i][j] = dp[i - 1][j - nums[i - 1]]; // // >< since nums[j - 1] may be a negative number, so i - nums[j - 1] may be greater than i
