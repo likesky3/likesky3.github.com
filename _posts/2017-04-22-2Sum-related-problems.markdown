@@ -47,10 +47,11 @@ If k-sum of the input array is relativly small, we can use dynamic programming m
 In order to deduplicate, the easiest way is using a HashSet. As long as it does not increase the total time and space complexity, use it. The other way is to sort the array first and then building the result in a ordered manner. The latter seems clever but must be very careful when implement it and it's get much more complicated when k become large.
 
 
-Some variants:
-[3Sum smaller](https://leetcode.com/problems/3sum-smaller/#/description)
+Some variants:  
+[3Sum smaller](https://leetcode.com/problems/3sum-smaller/#/description)  
+[3Sum closest](https://leetcode.com/problems/3sum-closest/#/description)  
+[BearDartDiv2](https://community.topcoder.com/stat?c=problem_statement&pm=13479)  
 
-[3Sum closest](https://leetcode.com/problems/3sum-closest/#/description)
 
 For 3Sum related problem, we can always consider method: first sort then use two pointers.   
 For kSum where k > 3, this method isn't work well, we should consider a more general method. Consider 4Sum smaller, like classical 4Sum, we need some preprocess, we can generate all pairs sum into a collection, then sort it based on sum. After that, we enumerate the first 2 elements and use binary search to find all possible pairs which we can get a 4Sum smaller than target. Check index to select the valid pairs.
