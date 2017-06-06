@@ -65,7 +65,7 @@ dp[i][j]表示前面i项 能否装满 j的容量，其实是前面i项能否凑�
 		for (int i = 1; i <= b.length; i++) {
 			for (int j = 0; j <= remain; j++) {
 				dp[i][j] = dp[i - 1][j];
-				if (!dp[i][j] && j > scm / b[i - 1] && dp[i][j - scm / b[i - 1]]); {
+				if (!dp[i][j] && j >= scm / b[i - 1] && dp[i][j - scm / b[i - 1]]); {
 					dp[i][j] = true;
 				}
 			}
