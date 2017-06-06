@@ -5,7 +5,7 @@ date:   2017-05-26
 categories:  DP, Math 
 ---
 
-Problem Statement
+Problem Statement  
     	You are given a int[] b containing a sequence of n positive integers: b[0], ..., b[n-1]. We are now looking for another sequence a[0], ..., a[n-1]. This sequence should have the following properties:
 Each a[i] should be a number of the form 2^x[i] where x[i] is some positive integer. In other words, each a[i] is one of the numbers 2, 4, 8, 16, ...
 For each i, the value a[i]^b[i] (that is, a[i] to the power b[i]) should be divisible by P, where P is the product of all a[i].
