@@ -7,12 +7,12 @@ categories:  DP
 
 Subset Sum问题是说给定一个集合，能否找到一个subset其元素加和为0，这是一个NP-Complete的问题，不过如果问题规模比较小是可解的，这里的问题规模有两个特征来衡量，特征一是set的总大小N，特征二是set所有元素加和S, 任何一个特征比较小就可解。当N比较小时，可枚举全部subset，逐个check，时间复杂度是O(2^N)。当S比较小时，可使用dynamic programming(DP)来求解， 时间复杂度是O(sum * N)。  
 
-Subset sum的一个经典变种问题时partition problem,即给定一个set，判断能否将其分为两个元素加和相等的subset，另一个类似变种是求解如何切分set使得切分得到的两个subset的subset sum最接近。实际解决问题时有很多细节需要仔细考虑和讨论，或者说需要明确问题的前提假设或者说user case:  
+Subset sum的一个经典变种问题时partition problem,即给定一个set，判断能否将其分为两个subset, 它们各自元素的加和相等。另一个类似变种是求解如何切分set使得切分得到的两个subset的subset sum最接近。实际解决问题时有很多细节需要仔细考虑和讨论，或者说需要明确问题的前提假设或者说user case:  
 1. input set的size最大可能是多少？
 2. input set的sum最大可能是多少？
 3. input都是非负整数还是正负数都有？
 
-此外可能有的Follow up问题：1）输出所有可能解，2）partition成 k 分sum 相等的subset如何处理
+此外可能有的Follow up问题：1）输出所有可能解，2）partition成 k份sum 相等的subset如何处理
 
 枚举所有subset依次check适宜解决N <= 20的情况。DP解法实际上是背包问题的一个应用，dp[i][j]表示前面i个元素中包含有subset sum为 j的subset, 需要注意的是当input包含负数时，dp[i][j]的两个维度先后顺序不能改变，考察的元素个数是单调递增的，但是sum在有负数情况下并不是单调的，会忽大忽小。
 
